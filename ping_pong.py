@@ -15,19 +15,22 @@ win = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Пинг-понг")
 
 # Цвета
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
+YELLOW = (255, 255, 0)
+GREEN = (0, 255, 0)
+RED = (255, 0, 0)
+BLUE =(0, 0, 255)
 
 class Paddle:
-    def __init__(self, x, y):
+    def __init__(self, x, y, color):
         self.x = x
         self.y = y
+        self.color = color
         self.width = 10
         self.height = 100
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
 
     def draw(self):
-        pygame.draw.rect(win, WHITE, self.rect)
+        pygame.draw.rect(win, self.color, self.rect)
 
 class Ball:
     def __init__(self, x, y):
@@ -39,7 +42,7 @@ class Ball:
         self.dy = 5
 
     def draw(self):
-        pygame.draw.circle(win, WHITE, (self.x, self.y), self.radius)
+        pygame.draw.circle(win, RED, (self.x, self.y), self.radius)
 
     def move(self):
         self.x += self.dx
@@ -47,8 +50,8 @@ class Ball:
         self.rect.topleft = (self.x, self.y)
 
 # Создание игровых объектов
-paddle1 = Paddle(50, height // 2 - 50)
-paddle2 = Paddle(width - 60, height // 2 - 50)
+paddle1 = Paddle(50, height // 2 - 50, color = BLUE)
+paddle2 = Paddle(width - 60, height // 2 - 50, color = BLUE)
 ball = Ball(width // 2, height // 2)
 
 # Очки игры
@@ -97,7 +100,8 @@ while True:
             ball.x, ball.y = width // 2, height // 2
 
         # Отрисовка объектов
-        win.fill(BLACK)
+        pygame.draw.rect(win, YELLOW, (0, 0, width // 2, height))
+        pygame.draw.rect(win, GREEN, (width // 2, 0, width // 2, height))
         paddle1.rect.topleft = (paddle1.x, paddle1.y)
         paddle2.rect.topleft = (paddle2.x, paddle2.y)
         paddle1.draw()
@@ -106,7 +110,7 @@ while True:
 
         # Отрисовка счета
         font = pygame.font.Font(None, 36)
-        text = font.render(f"{score1} : {score2}", True, WHITE)
+        text = font.render(f"{score1} : {score2}", True, BLUE)
         win.blit(text, (width // 2 - text.get_width() // 2, 20))
 
         pygame.display.flip()
